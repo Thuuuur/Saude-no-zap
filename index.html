@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saúde no Zap</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="auth-page" id="authPage">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="brand-icon">+</div>
+        <div>
+          <h1>Saúde no Zap</h1>
+          <p>Monitor de hábitos saudáveis</p>
+        </div>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth="login">Entrar</button>
+        <button class="auth-tab" data-auth="register">Cadastrar</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active">
+        <div class="input-group">
+          <label for="loginPhone">WhatsApp</label>
+          <input type="text" id="loginPhone" placeholder="(11) 99999-9999" required />
+        </div>
+
+        <div class="input-group">
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" placeholder="Digite sua senha" required />
+        </div>
+
+        <button type="submit" class="primary-btn">Entrar</button>
+      </form>
+
+      <form id="registerForm" class="auth-form">
+        <div class="form-grid auth-grid">
+          <div class="input-group">
+            <label for="registerName">Nome</label>
+            <input type="text" id="registerName" placeholder="Digite seu nome" required />
+          </div>
+
+          <div class="input-group">
+            <label for="registerPhone">WhatsApp</label>
+            <input type="text" id="registerPhone" placeholder="(11) 99999-9999" required />
+          </div>
+
+          <div class="input-group">
+            <label for="registerPassword">Senha</label>
+            <input type="password" id="registerPassword" placeholder="Crie uma senha" required />
+          </div>
+
+          <div class="input-group">
+            <label for="registerWaterGoal">Meta de água (litros)</label>
+            <input type="number" id="registerWaterGoal" min="0" step="0.1" placeholder="Ex: 2.0" required />
+          </div>
+
+          <div class="input-group">
+            <label for="registerSleepGoal">Meta de sono (horas)</label>
+            <input type="number" id="registerSleepGoal" min="0" step="0.5" placeholder="Ex: 8" required />
+          </div>
+
+          <div class="input-group">
+            <label for="registerWorkoutGoal">Meta semanal de treino</label>
+            <input type="number" id="registerWorkoutGoal" min="0" step="1" placeholder="Ex: 4" required />
+          </div>
+        </div>
+
+        <button type="submit" class="primary-btn">Criar conta</button>
+      </form>
+
+      <p class="auth-feedback" id="authFeedback"></p>
+    </div>
+  </div>
+
+  <div class="app hidden" id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">+</div>
+        <div>
+          <h1>Saúde no Zap</h1>
+          <p>Monitor de hábitos saudáveis</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <button class="menu-btn active" data-section="dashboard">Dashboard</button>
+        <button class="menu-btn" data-section="checkin">Check-in Diário</button>
+        <button class="menu-btn" data-section="historico">Histórico</button>
+        <button class="menu-btn" data-section="lembretes">Lembretes Diários</button>
+      </nav>
+
+      <button id="logoutBtn" class="logout-btn">Sair</button>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h2 id="welcomeTitle">Olá!</h2>
+          <p id="welcomeSubtitle">Acompanhe seus hábitos e metas diárias.</p>
+        </div>
+        <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+      </header>
+
+      <section id="dashboard" class="section active">
+        <div class="hero-card">
+          <div>
+            <h3>Resumo do dia</h3>
+            <p>Veja seu progresso diário com base nas metas cadastradas.</p>
+          </div>
+          <div class="hero-badge" id="todayDate">--/--/----</div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card metric-card">
+            <h4>Água</h4>
+            <p class="metric-value" id="waterValue">0 L</p>
+            <span class="metric-meta" id="waterMeta">Meta: 0 L</span>
+          </div>
+
+          <div class="card metric-card">
+            <h4>Sono</h4>
+            <p class="metric-value" id="sleepValue">0 h</p>
+            <span class="metric-meta" id="sleepMeta">Meta: 0 h</span>
+          </div>
+
+          <div class="card metric-card">
+            <h4>Treino</h4>
+            <p class="metric-value" id="workoutValue">Não</p>
+            <span class="metric-meta">Check-in de hoje</span>
+          </div>
+
+          <div class="card metric-card">
+            <h4>Alimentação</h4>
+            <p class="metric-value" id="foodValue">-</p>
+            <span class="metric-meta">Qualidade do dia</span>
+          </div>
+        </div>
+
+        <div class="progress-wrapper">
+          <div class="card progress-card">
+            <div class="card-header">
+              <h4>Progresso diário</h4>
+              <span id="progressPercent">0%</span>
+            </div>
+
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <p class="progress-text" id="progressText">
+              Faça seu check-in de hoje.
+            </p>
+          </div>
+
+          <div class="card motivation-card">
+            <h4>Mensagem motivacional</h4>
+            <p id="motivationText">
+              Pequenos hábitos constroem grandes resultados.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="checkin" class="section">
+        <div class="card form-card">
+          <div class="card-header">
+            <h3>Check-in diário</h3>
+            <p>Registre como foi seu dia.</p>
+          </div>
+
+          <form id="checkinForm" class="form-grid">
+            <div class="input-group">
+              <label for="waterIntake">Água consumida (litros)</label>
+              <input type="number" id="waterIntake" min="0" step="0.1" placeholder="Ex: 1.5" required />
+            </div>
+
+            <div class="input-group">
+              <label for="sleepHours">Horas de sono</label>
+              <input type="number" id="sleepHours" min="0" step="0.5" placeholder="Ex: 7.5" required />
+            </div>
+
+            <div class="input-group">
+              <label for="workoutDone">Treinou hoje?</label>
+              <select id="workoutDone" required>
+                <option value="">Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="foodQuality">Alimentação</label>
+              <select id="foodQuality" required>
+                <option value="">Selecione</option>
+                <option value="Boa">Boa</option>
+                <option value="Regular">Regular</option>
+                <option value="Ruim">Ruim</option>
+              </select>
+            </div>
+
+            <div class="input-group full-width">
+              <label for="mood">Humor / observação</label>
+              <textarea id="mood" rows="4" placeholder="Como você está se sentindo hoje?"></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-btn">Salvar check-in</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="historico" class="section">
+        <div class="card history-card">
+          <div class="card-header">
+            <h3>Histórico de registros</h3>
+            <p>Confira seus check-ins salvos.</p>
+          </div>
+
+          <div id="historyList" class="history-list">
+            <p class="empty-text">Nenhum registro encontrado.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="lembretes" class="section">
+        <div class="card reminders-card">
+          <div class="card-header">
+            <h3>Ativar lembretes diários</h3>
+            <p>Receba lembretes diários pelo WhatsApp para manter sua rotina saudável.</p>
+          </div>
+
+          <div class="reminders-content">
+            <div class="reminders-step">
+              <span class="step-badge">1</span>
+              <div>
+                <h4>Clique no link abaixo</h4>
+                <p>
+                  <a
+                    id="whatsappReminderLink"
+                    class="whatsapp-link"
+                    href="http://wa.me/+14155238886?text=join%20gravity-itself"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    http://wa.me/+14155238886?text=join%20gravity-itself
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div class="reminders-step">
+              <span class="step-badge">2</span>
+              <div>
+                <h4>Ou envie uma mensagem manualmente</h4>
+                <p>
+                  Mande uma mensagem via WhatsApp para o número
+                  <strong>+1 415 523 8886</strong>
+                  com o texto
+                  <strong>gravity-itself</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="reminders-actions">
+              <a
+                class="primary-btn reminder-action-btn"
+                href="http://wa.me/+14155238886?text=join%20gravity-itself"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Abrir WhatsApp
+              </a>
+              <button id="copyReminderNumberBtn" class="secondary-btn" type="button">
+                Copiar número
+              </button>
+              <button id="copyReminderMessageBtn" class="secondary-btn" type="button">
+                Copiar mensagem
+              </button>
+            </div>
+
+            <p id="reminderFeedback" class="reminder-feedback"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
